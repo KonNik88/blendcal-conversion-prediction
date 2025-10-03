@@ -1,0 +1,45 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: blendcal-api
+    environment:
+      - FINAL_PROJECT_ROOT=/app
+      # Uncomment to force version:
+      # - MODEL_VERSION=dev
+    volumes:
+      # hot-swap artifacts to update weights/thresholds without rebuilding
+      - ./artifacts:/app/artifacts:rw
+      # optional: persist logs outside the container
+      - ./artifacts/logs:/app/artifacts/logs:rw
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/health"]
+      interval: 20s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile.ui
+    container_name: blendcal-ui
+    environment:
+      - BLENDCAL_API=http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "8501:8501"
+    # to iterate fast on UI code without rebuilds:
+    volumes:
+      - ./app:/app/app:ro
+      # assets (logos) will be read from /app/app/assets if present
+
+networks:
+  default:
+    name: blendcal-net
+    driver: bridge

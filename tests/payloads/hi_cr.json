@@ -1,0 +1,13 @@
+{
+  "features": {
+    "events_in_session": 120, "unique_event_types": 18, "visit_number": 4,
+    "n_brands": 6, "n_models": 10, "is_returning_user": 1,
+    "any_car_detail": 1, "has_model": 1, "is_top_brand": 1,
+    "utm_medium": "cpc", "traffic_group": "performance",
+    "device_category": "desktop", "geo_city": "Moscow", "is_big_city": 1,
+    "car_brand": "Toyota", "car_model": "Camry", "brand_model": "Toyota_Camry",
+    "visit_hour": 20, "visit_dow": 3, "is_weekend": 0,
+    "is_organic": 0, "is_paid": 1, "is_social": 0, "is_email": 0, "is_push": 0, "is_sms": 0, "is_perf": 1
+  },
+  "mode": "bestF1"
+}

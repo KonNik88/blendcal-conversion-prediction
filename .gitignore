@@ -1,0 +1,32 @@
+# === data & artifacts & logs ===
+data/
+artifacts/*
+!artifacts/prep/
+artifacts/prep/*
+!artifacts/prep/prep_params.json
+!artifacts/prep/freq_maps.json
+logs/
+
+# === airflow state / docker ===
+docker_airflow/postgres-data/
+docker_airflow/logs/
+
+# === local config ===
+.env
+.env.*
+docker_airflow/.env
+
+# === releases / screenshots ===
+release/images/
+screenshots/
+
+# === notebooks cache / python junk ===
+*.ipynb_checkpoints
+__pycache__/
+*.pyc
+
+# === OS / IDE ===
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

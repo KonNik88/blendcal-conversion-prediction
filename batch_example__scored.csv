@@ -1,0 +1,4 @@
+utm_source,utm_medium,utm_campaign,traffic_group,device_category,geo_country,geo_city,visit_number,visit_hour,visit_dow,events_in_session,unique_event_types,n_brands,n_models,car_brand,car_model,brand_model,is_top_brand,has_model,is_big_city,is_organic,is_paid,is_social,is_email,is_push,is_sms,is_perf,hour_sin,hour_cos,dow_sin,dow_cos,proba,y_hat
+,cpc,,performance,mobile,Russia,Moscow,20,14,2,80,30,10,8,other_brand,other_model,other_brand_other_model,1,1,1,0,1,0,0,1,1,1,-0.4999999999999997,-0.8660254037844388,0.9749279121818236,-0.2225209339563143,0.30167906335611244,1
+,social,,social,tablet,Russia,other_city,1,2,6,1,1,0,0,other_brand,other_model,other_brand_other_model,0,0,0,0,1,1,0,0,0,0,0.4999999999999999,0.8660254037844387,-0.7818314824680299,0.6234898018587334,0.0,0
+,(none),,organic,desktop,Russia,other_city,1,23,0,0,0,0,0,other_brand,other_model,other_brand_other_model,0,0,0,1,0,0,0,0,0,0,-0.2588190451025215,0.965925826289068,0.0,1.0,0.0,0

@@ -1,0 +1,38 @@
+services:
+  api:
+    image: final_project-api:1.0.2
+    container_name: blendcal-api
+    environment:
+      - FINAL_PROJECT_ROOT=/app
+      # - MODEL_VERSION=dev
+    volumes:
+      - ./artifacts:/app/artifacts:rw
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/health"]
+      interval: 20s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  ui:
+    image: final_project-ui:1.0.2
+    container_name: blendcal-ui
+    environment:
+      - BLENDCAL_API=http://api:8000   
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "8501:8501"
+    # volumes:
+    #   - ./app:/app/app:ro            
+    restart: unless-stopped
+
+networks:
+  default:
+    name: blendcal-net
+    driver: bridge
+

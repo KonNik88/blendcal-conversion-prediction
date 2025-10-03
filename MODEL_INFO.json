@@ -1,0 +1,23 @@
+{
+  "version": "1.0.2",
+  "author": "Константин Никифоров",
+  "date": "2025-03-06",
+  "description": "Ансамбль CatBoost + XGBoost + LightGBM с калибровкой и fallback на CatBoost. Используется препроцессинг с медианной импутацией, winsorize, target encoding для категориальных.",
+  "artifacts": {
+    "catboost": "CatBoost_calibrated_isotonic.pkl",
+    "xgboost": "XGB.booster.json + XGB_isotonic.pkl",
+    "lightgbm": "LGB.booster.txt + LGB_isotonic.pkl"
+  },
+  "metrics": {
+    "auc": 0.86,
+    "f1_macro": 0.75,
+    "holdout_period": "2021-11 → 2021-12"
+  },
+  "environment": {
+    "python": "3.9.23",
+    "scikit-learn": "0.24.2",
+    "xgboost": "2.1.4",
+    "lightgbm": "4.6.0",
+    "catboost": "1.2.7"
+  }
+}

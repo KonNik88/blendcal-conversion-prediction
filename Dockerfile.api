@@ -1,0 +1,30 @@
+# ---- BlendCAL API (FastAPI) ----
+FROM python:3.9-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1     PYTHONUNBUFFERED=1     PIP_NO_CACHE_DIR=1
+
+# System deps 
+RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     libgomp1  curl  && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Requirements first 
+COPY requirements-api.txt /tmp/requirements.txt
+RUN pip install --upgrade pip && pip install -r /tmp/requirements.txt
+
+# Copy project 
+COPY api /app/api
+COPY artifacts /app/artifacts
+COPY MODEL_INFO.json /app/MODEL_INFO.json
+COPY VERSION /app/VERSION
+
+# Env expected by config.py
+ENV FINAL_PROJECT_ROOT=/app
+
+# Optional explicit version override (otherwise config reads VERSION file)
+# ENV MODEL_VERSION=dev
+
+EXPOSE 8000
+
+# Uvicorn entry
+CMD ["uvicorn", "api.app.main:app", "--host", "0.0.0.0", "--port", "8000"]

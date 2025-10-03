@@ -1,0 +1,158 @@
+{
+  "num_cols": [
+    "visit_number",
+    "visit_hour",
+    "visit_dow",
+    "is_weekend",
+    "is_organic",
+    "is_paid",
+    "is_social",
+    "is_email",
+    "is_push",
+    "is_sms",
+    "is_perf",
+    "events_in_session",
+    "unique_event_types",
+    "n_brands",
+    "n_models",
+    "any_car_detail",
+    "is_big_city",
+    "is_top_brand",
+    "has_model",
+    "is_returning_user"
+  ],
+  "cat_cols": [
+    "utm_medium",
+    "device_category",
+    "geo_country",
+    "geo_city",
+    "traffic_group",
+    "car_brand",
+    "car_model",
+    "brand_model"
+  ],
+  "clip_cols": [
+    "visit_number",
+    "is_weekend",
+    "is_organic",
+    "is_paid",
+    "is_social",
+    "is_email",
+    "is_push",
+    "is_sms",
+    "is_perf",
+    "events_in_session",
+    "unique_event_types",
+    "n_brands",
+    "n_models",
+    "any_car_detail",
+    "is_big_city",
+    "is_top_brand",
+    "has_model",
+    "is_returning_user"
+  ],
+  "no_clip": [
+    "dow_cos",
+    "dow_sin",
+    "hour_cos",
+    "hour_sin",
+    "visit_dow",
+    "visit_hour"
+  ],
+  "num_medians": {
+    "visit_number": 1.0,
+    "visit_hour": 14.0,
+    "visit_dow": 3.0,
+    "is_weekend": 0.0,
+    "is_organic": 0.0,
+    "is_paid": 1.0,
+    "is_social": 0.0,
+    "is_email": 0.0,
+    "is_push": 0.0,
+    "is_sms": 0.0,
+    "is_perf": 0.0,
+    "events_in_session": 3.0,
+    "unique_event_types": 2.0,
+    "n_brands": 0.0,
+    "n_models": 0.0,
+    "any_car_detail": 0.0,
+    "is_big_city": 1.0,
+    "is_top_brand": 0.0,
+    "has_model": 0.0,
+    "is_returning_user": 0.0
+  },
+  "quantiles": {
+    "visit_number": {
+      "lo": 1.0,
+      "hi": 38.0
+    },
+    "is_weekend": {
+      "lo": 0.0,
+      "hi": 1.0
+    },
+    "is_organic": {
+      "lo": 0.0,
+      "hi": 1.0
+    },
+    "is_paid": {
+      "lo": 0.0,
+      "hi": 1.0
+    },
+    "is_social": {
+      "lo": 0.0,
+      "hi": 1.0
+    },
+    "is_email": {
+      "lo": 0.0,
+      "hi": 1.0
+    },
+    "is_push": {
+      "lo": 0.0,
+      "hi": 0.0
+    },
+    "is_sms": {
+      "lo": 0.0,
+      "hi": 0.0
+    },
+    "is_perf": {
+      "lo": 0.0,
+      "hi": 1.0
+    },
+    "events_in_session": {
+      "lo": 0.0,
+      "hi": 79.0
+    },
+    "unique_event_types": {
+      "lo": 0.0,
+      "hi": 18.0
+    },
+    "n_brands": {
+      "lo": 0.0,
+      "hi": 6.0
+    },
+    "n_models": {
+      "lo": 0.0,
+      "hi": 3.0
+    },
+    "any_car_detail": {
+      "lo": 0.0,
+      "hi": 1.0
+    },
+    "is_big_city": {
+      "lo": 0.0,
+      "hi": 1.0
+    },
+    "is_top_brand": {
+      "lo": 0.0,
+      "hi": 1.0
+    },
+    "has_model": {
+      "lo": 0.0,
+      "hi": 1.0
+    },
+    "is_returning_user": {
+      "lo": 0.0,
+      "hi": 1.0
+    }
+  }
+}

@@ -1,0 +1,12 @@
+.git
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.ipynb
+mlruns/
+mlartifacts/
+.env
+*.tar
+release/images/*.tar
+artifacts/logs/*
+tests/*

@@ -1,0 +1,10 @@
+{
+  "features": {
+    "events_in_session": 3, "unique_event_types": 1, "visit_number": 1,
+    "n_brands": 0, "n_models": 0, "utm_medium": "social", "traffic_group": "social",
+    "device_category": "tablet", "geo_city": "other_city",
+    "visit_hour": 2, "visit_dow": 6, "is_weekend": 1,
+    "is_organic": 0, "is_paid": 1, "is_social": 1, "is_email": 0, "is_push": 0, "is_sms": 0, "is_perf": 0
+  },
+  "mode": "hi-recall"
+}

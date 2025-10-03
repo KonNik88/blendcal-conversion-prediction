@@ -1,0 +1,87 @@
+x-airflow-image: &airflow_image airflow-blendcal:py39
+x-airflow-env: &airflow_env
+  AIRFLOW__CORE__EXECUTOR: LocalExecutor
+  AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+  AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "True"
+  AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: "120"
+  AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "True"
+  AIRFLOW__WEBSERVER__SECRET_KEY: "a-very-long-static-secret-just-letters-numbers"
+  FINAL_PROJECT_ROOT: /opt/airflow/project
+  PYTHONPATH: /opt/airflow/project:/opt/airflow/project/modules:/opt/airflow/project/api
+
+networks:
+  blendcal_net:
+    name: blendcal_net
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks: [blendcal_net]
+
+  airflow-init:
+    image: *airflow_image
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      <<: *airflow_env
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    # одна строка-скрипт через bash -c — так не сломается парсер команды
+    command: ["bash","-c","airflow db migrate && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com"]
+    volumes:
+      # пути Windows в формате //диск/...
+      - //d/ML/LS/final/final_project/dags:/opt/airflow/dags
+      - //d/ML/LS/final/final_project/project:/opt/airflow/project
+      - //d/ML/LS/final/final_project/api:/opt/airflow/project/api
+      - //d/ML/LS/final/final_project/data:/opt/airflow/project/data
+      - //d/ML/LS/final/final_project/artifacts:/opt/airflow/project/artifacts
+    networks: [blendcal_net]
+
+  webserver:
+    image: *airflow_image
+    depends_on:
+      postgres:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
+    environment:
+      <<: *airflow_env
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    command: webserver
+    ports:
+      - "8080:8080"
+    volumes:
+      - //d/ML/LS/final/final_project/dags:/opt/airflow/dags
+      - //d/ML/LS/final/final_project/project:/opt/airflow/project
+      - //d/ML/LS/final/final_project/api:/opt/airflow/project/api
+      - //d/ML/LS/final/final_project/data:/opt/airflow/project/data
+      - //d/ML/LS/final/final_project/artifacts:/opt/airflow/project/artifacts
+    networks: [blendcal_net]
+
+  scheduler:
+    image: *airflow_image
+    depends_on:
+      postgres:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
+    environment:
+      <<: *airflow_env
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    command: scheduler
+    volumes:
+      - //d/ML/LS/final/final_project/dags:/opt/airflow/dags
+      - //d/ML/LS/final/final_project/project:/opt/airflow/project
+      - //d/ML/LS/final/final_project/api:/opt/airflow/project/api
+      - //d/ML/LS/final/final_project/data:/opt/airflow/project/data
+      - //d/ML/LS/final/final_project/artifacts:/opt/airflow/project/artifacts
+    networks: [blendcal_net]
