@@ -30,3 +30,6 @@ __pycache__/
 Thumbs.db
 .vscode/
 .idea/
+
+# misc
+*.docx
