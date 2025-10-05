@@ -33,3 +33,7 @@ Thumbs.db
 
 # misc
 *.docx
+
+# repo housekeeping
+project_tree.txt
+project.ipynb
