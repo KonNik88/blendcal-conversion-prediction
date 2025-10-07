@@ -1,87 +1,104 @@
-# BlendCAL — предсказание конверсии автосессий
+# BlendCAL — Web-Session Conversion Prediction
 
-## О проекте
-**BlendCAL** — учебный end-to-end проект по машинному обучению (Skillbox, ML-специализация).  
-Задача: по данным веб-сессий предсказать, совершит ли пользователь целевое действие (конверсию).
+<p align="left">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.9+-3776AB?logo=python&logoColor=white">
+  <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white">
+  <img alt="Streamlit" src="https://img.shields.io/badge/Streamlit-1.38-FF4B4B?logo=streamlit&logoColor=white">
+  <img alt="Airflow" src="https://img.shields.io/badge/Apache%20Airflow-2.x-017CEE?logo=apacheairflow&logoColor=white">
+  <img alt="Docker" src="https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white">
+  <img alt="scikit-learn" src="https://img.shields.io/badge/scikit--learn-0.24-FA9F1C?logo=scikitlearn&logoColor=white">
+  <img alt="CatBoost" src="https://img.shields.io/badge/CatBoost-1.2.7-FFCC00">
+  <img alt="XGBoost" src="https://img.shields.io/badge/XGBoost-2.1.4-EB5E28">
+  <img alt="LightGBM" src="https://img.shields.io/badge/LightGBM-4.6.0-80C342">
+  <img alt="License" src="https://img.shields.io/badge/License-MIT-blue">
+</p>
 
-Мы построили **полный ML-pipeline**:
-1. Подготовка данных и фич (sessions + hits).
-2. Обучение ансамбля (CatBoost + XGBoost + LightGBM с калибровкой).
-3. Сервис FastAPI для инференса.
-4. Streamlit UI для удобного тестирования.
-5. Airflow DAG для оркестрации (ingest → features → predict → archive).
-6. Docker-окружение для всего пайплайна.
+## Overview
+**BlendCAL** is an end‑to‑end ML project for predicting whether a web session will convert.  
+The pipeline covers: feature engineering, an ensemble of **CatBoost + XGBoost + LightGBM** with **isotonic calibration**, a **FastAPI** inference service, a **Streamlit** UI, an **Airflow** DAG for orchestration, and full **Docker** setup.
+
+> Course project (Skillbox, ML specialization).
 
 ---
 
-## Данные и объём  
-• ga_sessions.csv — 1 860 042 строк  
-• ga_hits.csv — 15 726 470 строк 
+## Data volume
+- `ga_sessions.csv` — **1,860,042** rows  
+- `ga_hits.csv` — **15,726,470** rows
 
-## Структура проекта
+---
 
+## Project structure
 ```
 final_project/
 ├─ dags/                          # Airflow DAG (blendcal_inference.py)
 ├─ project/
-│  ├─ modules/                    # ETL и фичепайплайн
+│  ├─ modules/                    # ETL & feature pipeline
 │  │  ├─ extract_csv.py
 │  │  ├─ prepare.py
 │  │  └─ ensemble.py
 │  ├─ data/                       # raw / landing / staging / predictions
-│  └─ artifacts/                  # prep_params.json, freq_maps.json, модели, калибровки
-├─ screenshots/                   # скриншоты UI, API, DAG
+│  └─ artifacts/                  # prep_params.json, freq_maps.json, models, calibration
 ├─ api/app/                       # FastAPI: main.py, artifacts_loader.py, preprocessor.py
 ├─ app/                           # Streamlit UI (streamlit_app.py)
-├─ docker_airflow/                # Dockerfile + docker-compose для Airflow
+├─ docker_airflow/                # Dockerfile + docker-compose for Airflow
 ├─ docker-compose.yml             # API + UI
 ├─ requirements-api.txt
 ├─ requirements-ui.txt
 ├─ MODEL_INFO.json
 ├─ VERSION
-└─ README_airflow.md              # отдельное руководство по Airflow
+└─ docker_airflow/README_airflow.md
 ```
 
-## Технологии
+---
 
-- **ML**: CatBoost, XGBoost, LightGBM (взвешенный ансамбль + изотоническая калибровка).  
-- **Препроцессинг**: медианные импуты, квантильный клиппинг, frequency encoding, синусы/косинусы.  
-- **API**: FastAPI, Pydantic, Uvicorn.  
-- **UI**: Streamlit.  
-- **Оркестрация**: Airflow (PythonOperator, Docker stack).  
-- **Контейнеризация**: Docker, docker-compose.  
+## Tech stack
+- **ML**: CatBoost, XGBoost, LightGBM (weighted ensemble + isotonic calibration)  
+- **Preprocessing**: median imputation, quantile clipping, frequency encoding, cyclic time features (sin/cos)  
+- **API**: FastAPI, Pydantic, Uvicorn  
+- **UI**: Streamlit  
+- **Orchestration**: Airflow (PythonOperator, Docker stack)  
+- **Containerization**: Docker, docker‑compose
 
-## Запуск
+---
+
+## Quickstart
 
 ### 1) API + UI (Docker)
 ```bash
 docker compose up --build
 ```
-- FastAPI: http://localhost:8000/docs  
+- FastAPI Swagger: http://localhost:8000/docs  
 - Streamlit: http://localhost:8501
 
 ### 2) Airflow (Docker)
-Подробности см. в `README_airflow.md`. Кратко:
+See [`docker_airflow/README_airflow.md`](docker_airflow/README_airflow.md) for details. TL;DR:
 ```powershell
 cd docker_airflow
 docker compose down -v
 docker compose up airflow-init
 docker compose up -d webserver scheduler
 ```
-- Airflow UI: http://localhost:8080
+- Airflow UI: http://localhost:8080 (admin / admin)
 
-## Результаты
+---
 
-- ROC-AUC: 0.86  
-- F1 macro: 0.75  
-- Holdout: 2021-11 → 2021-12  
-Метрики и артефакты зафиксированы в `MODEL_INFO.json`.
+## Results
+- ROC‑AUC: **0.86**  
+- F1 macro: **0.75**  
+- Holdout period: **2021‑11 → 2021‑12**  
 
-## Полезные ссылки
+Model metadata & artifacts are recorded in `MODEL_INFO.json`.
 
-- `README_airflow.md` — инструкции по пайплайну Airflow.  
-- `MODEL_INFO.json` — паспорт модели.
+---
 
-## Авторы
+## Useful links
+- Airflow how‑to: [`docker_airflow/README_airflow.md`](docker_airflow/README_airflow.md)  
+- Model passport: [`MODEL_INFO.json`](MODEL_INFO.json)
 
-- Константин Никифоров — ML-специализация, Skillbox (2025)
+---
+
+## Author
+- **Konstantin Nikiforov** — Skillbox ML specialization (2025)
+
+## License
+This project is licensed under the **MIT License**. See [`LICENSE`](LICENSE) for details.
